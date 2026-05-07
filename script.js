@@ -7,6 +7,12 @@ const form = document.querySelector("#contactForm");
 const formStatus = document.querySelector("#formStatus");
 const year = document.querySelector("#year");
 const extensionGroups = document.querySelectorAll(".Chrome-extensions, .Firefox-extensions, .Edge-extensions, .opera-extensions");
+const extensionLabels = new Map([
+  ["Chrome-extensions", "Chrome"],
+  ["Firefox-extensions", "Firefox"],
+  ["Edge-extensions", "Edge"],
+  ["opera-extensions", "Opera"]
+]);
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -52,14 +58,28 @@ filterButtons.forEach((button) => {
 
 extensionGroups.forEach((group) => {
   group.setAttribute("tabindex", "0");
-  group.setAttribute("role", "button");
   group.setAttribute("aria-expanded", "false");
+
+  const groupClass = [...group.classList].find((className) => extensionLabels.has(className));
+  const label = extensionLabels.get(groupClass) || "Extensions";
+  const toggleItem = document.createElement("li");
+  const toggleButton = document.createElement("button");
+
+  toggleItem.className = "extension-toggle-item";
+  toggleButton.className = "extension-toggle";
+  toggleButton.type = "button";
+  toggleButton.textContent = label;
+  toggleButton.setAttribute("aria-expanded", "false");
+  toggleButton.setAttribute("aria-label", `Toggle ${label} extension links`);
+  toggleItem.append(toggleButton);
+  group.prepend(toggleItem);
 
   const closeOtherGroups = () => {
     extensionGroups.forEach((item) => {
       if (item !== group) {
         item.classList.remove("is-open");
         item.setAttribute("aria-expanded", "false");
+        item.querySelector(".extension-toggle")?.setAttribute("aria-expanded", "false");
       }
     });
   };
@@ -69,14 +89,11 @@ extensionGroups.forEach((group) => {
     closeOtherGroups();
     group.classList.toggle("is-open", willOpen);
     group.setAttribute("aria-expanded", String(willOpen));
+    toggleButton.setAttribute("aria-expanded", String(willOpen));
   };
 
-  group.addEventListener("click", (event) => {
-    const clickedLink = event.target.closest("a");
-    if (clickedLink) {
-      return;
-    }
-
+  toggleButton.addEventListener("click", (event) => {
+    event.stopPropagation();
     toggleGroup();
   });
 
@@ -117,6 +134,7 @@ document.addEventListener("click", (event) => {
   extensionGroups.forEach((group) => {
     group.classList.remove("is-open");
     group.setAttribute("aria-expanded", "false");
+    group.querySelector(".extension-toggle")?.setAttribute("aria-expanded", "false");
   });
 });
 
