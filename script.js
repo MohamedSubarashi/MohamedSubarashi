@@ -6,24 +6,31 @@ const projectItems = document.querySelectorAll(".project-item");
 const form = document.querySelector("#contactForm");
 const formStatus = document.querySelector("#formStatus");
 const year = document.querySelector("#year");
+const extensionGroups = document.querySelectorAll(".Chrome-extensions, .Firefox-extensions, .Edge-extensions, .opera-extensions");
 
-year.textContent = new Date().getFullYear();
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
 
 const savedTheme = localStorage.getItem("fatgeek-theme");
-if (savedTheme === "light") {
+if (savedTheme === "light" && themeToggle) {
   body.classList.add("light-theme");
   themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
 }
 
-themeToggle.addEventListener("click", () => {
-  body.classList.toggle("light-theme");
-  const isLight = body.classList.contains("light-theme");
-  localStorage.setItem("fatgeek-theme", isLight ? "light" : "dark");
-  themeToggle.innerHTML = isLight ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
-});
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    body.classList.toggle("light-theme");
+    const isLight = body.classList.contains("light-theme");
+    localStorage.setItem("fatgeek-theme", isLight ? "light" : "dark");
+    themeToggle.innerHTML = isLight ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
+  });
+}
 
 const updateNav = () => {
-  nav.classList.toggle("is-scrolled", window.scrollY > 24);
+  if (nav) {
+    nav.classList.toggle("is-scrolled", window.scrollY > 24);
+  }
 };
 
 updateNav();
@@ -40,6 +47,27 @@ filterButtons.forEach((button) => {
       const shouldShow = filter === "all" || item.dataset.category === filter;
       item.classList.toggle("is-hidden", !shouldShow);
     });
+  });
+});
+
+extensionGroups.forEach((group) => {
+  group.querySelectorAll("a.nav-link").forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    const text = link.textContent.toLowerCase();
+    const unavailable = href.trim() === "" || href === "#" || text.includes("comming soon") || text.includes("coming soon");
+
+    link.textContent = link.textContent.replace("Comming Soon", "Coming Soon");
+
+    if (href.startsWith("http")) {
+      link.setAttribute("target", "_blank");
+      link.setAttribute("rel", "noreferrer");
+    }
+
+    if (unavailable) {
+      link.classList.add("extension-unavailable");
+      link.setAttribute("aria-disabled", "true");
+      link.addEventListener("click", (event) => event.preventDefault());
+    }
   });
 });
 
@@ -102,8 +130,12 @@ document.querySelectorAll(".navbar a[href^='#'], .site-footer a[href^='#']").for
   });
 });
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  formStatus.textContent = "Thanks. Your message is ready to be connected to an email or backend service.";
-  form.reset();
-});
+if (form) {
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (formStatus) {
+      formStatus.textContent = "Thanks. Your message is ready to be connected to an email or backend service.";
+    }
+    form.reset();
+  });
+}
