@@ -51,19 +51,42 @@ filterButtons.forEach((button) => {
 });
 
 extensionGroups.forEach((group) => {
+  group.setAttribute("tabindex", "0");
+  group.setAttribute("role", "button");
+  group.setAttribute("aria-expanded", "false");
+
+  const closeOtherGroups = () => {
+    extensionGroups.forEach((item) => {
+      if (item !== group) {
+        item.classList.remove("is-open");
+        item.setAttribute("aria-expanded", "false");
+      }
+    });
+  };
+
+  const toggleGroup = () => {
+    const willOpen = !group.classList.contains("is-open");
+    closeOtherGroups();
+    group.classList.toggle("is-open", willOpen);
+    group.setAttribute("aria-expanded", String(willOpen));
+  };
+
   group.addEventListener("click", (event) => {
     const clickedLink = event.target.closest("a");
     if (clickedLink) {
       return;
     }
 
-    extensionGroups.forEach((item) => {
-      if (item !== group) {
-        item.classList.remove("is-open");
-      }
-    });
+    toggleGroup();
+  });
 
-    group.classList.toggle("is-open");
+  group.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    toggleGroup();
   });
 
   group.querySelectorAll("a.nav-link").forEach((link) => {
@@ -91,7 +114,10 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  extensionGroups.forEach((group) => group.classList.remove("is-open"));
+  extensionGroups.forEach((group) => {
+    group.classList.remove("is-open");
+    group.setAttribute("aria-expanded", "false");
+  });
 });
 
 const counters = document.querySelectorAll("[data-count]");

@@ -139,6 +139,7 @@ ul.opera-extensions {
   margin: 0;
   padding: 0;
   isolation: isolate;
+  min-width: 170px;
 }
 
 .Chrome-extensions {
@@ -172,7 +173,7 @@ ul.opera-extensions::before {
   padding: 0.48rem 0.9rem;
   font-size: 0.9rem;
   font-weight: 900;
-  cursor: default;
+  cursor: pointer;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
@@ -197,15 +198,21 @@ ul.opera-extensions::before {
 .Firefox-extensions::after,
 .Edge-extensions::after,
 ul.opera-extensions::after {
-  content: "";
-  width: 0.58rem;
-  height: 0.58rem;
+  content: "⌄";
+  width: 1.35rem;
+  height: 1.35rem;
+  border: 1px solid var(--line);
   border-radius: 50%;
-  background: var(--browser-color);
+  color: var(--browser-color);
   position: absolute;
-  top: 1.06rem;
-  right: 0.72rem;
-  box-shadow: 0 0 18px var(--browser-color);
+  top: 0.62rem;
+  right: 0.58rem;
+  display: grid;
+  place-items: center;
+  font-size: 0.86rem;
+  font-weight: 900;
+  line-height: 1;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .Chrome-extensions:hover::before,
@@ -226,6 +233,29 @@ ul.opera-extensions:focus-within::before {
 .Edge-extensions > li,
 ul.opera-extensions > li {
   min-width: 238px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-0.35rem);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.Chrome-extensions.is-open > li,
+.Firefox-extensions.is-open > li,
+.Edge-extensions.is-open > li,
+ul.opera-extensions.is-open > li {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.Chrome-extensions.is-open::after,
+.Firefox-extensions.is-open::after,
+.Edge-extensions.is-open::after,
+ul.opera-extensions.is-open::after {
+  background: var(--panel-strong);
+  transform: rotate(180deg);
 }
 
 @media (min-width: 992px) {
@@ -251,11 +281,6 @@ ul.opera-extensions > li {
     position: absolute;
     left: 0;
     z-index: 60;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-0.35rem);
-    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
   }
 
   .Chrome-extensions > li:first-of-type,
@@ -1045,7 +1070,7 @@ body.light-theme .form-select {
   .Firefox-extensions::after,
   .Edge-extensions::after,
   ul.opera-extensions::after {
-    top: 1.18rem;
+    top: 0.86rem;
     right: 1rem;
   }
 
@@ -1053,9 +1078,17 @@ body.light-theme .form-select {
   .Firefox-extensions > li,
   .Edge-extensions > li,
   ul.opera-extensions > li {
+    display: none;
     width: 100%;
     min-width: 0;
     margin-top: 0.45rem;
+  }
+
+  .Chrome-extensions.is-open > li,
+  .Firefox-extensions.is-open > li,
+  .Edge-extensions.is-open > li,
+  ul.opera-extensions.is-open > li {
+    display: block;
   }
 
   .Chrome-extensions .nav-link,
