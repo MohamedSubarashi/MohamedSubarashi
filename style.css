@@ -80,22 +80,31 @@ body.light-theme .site-nav {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
 }
 
+<<<<<<< HEAD
 .navbar-nav .nav-link,
 .opera-extensions,
 .edge-extensions,
 .chrome-extensions,
 .firefox-extensions {
+=======
+.navbar-nav .nav-link  ,opera-extensions,edge-extensions,chrome-extensions,firefox-extensions {
+>>>>>>> 9e33c53a046c4beefd57d6fc742cfb3208d77c58
   color: var(--muted);
   font-weight: 700;
   font-size: 0.94rem;
 }
 
+<<<<<<< HEAD
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active,
 .opera-extensions:hover,
 .edge-extensions:hover,
 .chrome-extensions:hover,
 .firefox-extensions:hover {
+=======
+.navbar-nav .nav-link:hover,,opera-extensions,edge-extensions,chrome-extensions,firefox-extensions,
+.navbar-nav .nav-link.active {
+>>>>>>> 9e33c53a046c4beefd57d6fc742cfb3208d77c58
   color: var(--text);
 }
 
