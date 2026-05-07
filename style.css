@@ -86,7 +86,7 @@ body.light-theme .site-nav {
   font-size: 0.94rem;
 }
 
-.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:hover,,opera-extensions,edge-extensions,chrome-extensions,firefox-extensions,
 .navbar-nav .nav-link.active {
   color: var(--text);
 }
