@@ -138,6 +138,7 @@ ul.opera-extensions {
   list-style: none;
   margin: 0;
   padding: 0;
+  isolation: isolate;
 }
 
 .Chrome-extensions {
@@ -249,7 +250,7 @@ ul.opera-extensions > li {
   ul.opera-extensions > li {
     position: absolute;
     left: 0;
-    z-index: 20;
+    z-index: 60;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -301,16 +302,28 @@ ul.opera-extensions > li {
 
   .Chrome-extensions:hover > li,
   .Chrome-extensions:focus-within > li,
+  .Chrome-extensions.is-open > li,
   .Firefox-extensions:hover > li,
   .Firefox-extensions:focus-within > li,
+  .Firefox-extensions.is-open > li,
   .Edge-extensions:hover > li,
   .Edge-extensions:focus-within > li,
+  .Edge-extensions.is-open > li,
   ul.opera-extensions:hover > li,
-  ul.opera-extensions:focus-within > li {
+  ul.opera-extensions:focus-within > li,
+  ul.opera-extensions.is-open > li {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
+  }
+
+  .Chrome-extensions.is-open::before,
+  .Firefox-extensions.is-open::before,
+  .Edge-extensions.is-open::before,
+  ul.opera-extensions.is-open::before {
+    border-color: color-mix(in srgb, var(--browser-color) 64%, transparent);
+    background: var(--panel-strong);
   }
 }
 

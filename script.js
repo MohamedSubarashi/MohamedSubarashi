@@ -51,6 +51,21 @@ filterButtons.forEach((button) => {
 });
 
 extensionGroups.forEach((group) => {
+  group.addEventListener("click", (event) => {
+    const clickedLink = event.target.closest("a");
+    if (clickedLink) {
+      return;
+    }
+
+    extensionGroups.forEach((item) => {
+      if (item !== group) {
+        item.classList.remove("is-open");
+      }
+    });
+
+    group.classList.toggle("is-open");
+  });
+
   group.querySelectorAll("a.nav-link").forEach((link) => {
     const href = link.getAttribute("href") || "";
     const text = link.textContent.toLowerCase();
@@ -69,6 +84,14 @@ extensionGroups.forEach((group) => {
       link.addEventListener("click", (event) => event.preventDefault());
     }
   });
+});
+
+document.addEventListener("click", (event) => {
+  if (event.target.closest(".Chrome-extensions, .Firefox-extensions, .Edge-extensions, .opera-extensions")) {
+    return;
+  }
+
+  extensionGroups.forEach((group) => group.classList.remove("is-open"));
 });
 
 const counters = document.querySelectorAll("[data-count]");
