@@ -60,7 +60,7 @@ const animateCounter = (counter) => {
   tick();
 };
 
-const revealItems = document.querySelectorAll(".service-card, .project-card, .timeline-item, .testimonial, .contact-intro, .contact-form, .stat");
+const revealItems = document.querySelectorAll(".service-card, .extension-card, .project-card, .timeline-item, .testimonial, .contact-intro, .contact-form, .stat");
 revealItems.forEach((item) => item.classList.add("reveal"));
 
 const observer = new IntersectionObserver(
@@ -90,6 +90,10 @@ revealItems.forEach((item) => observer.observe(item));
 
 document.querySelectorAll(".navbar a[href^='#'], .site-footer a[href^='#']").forEach((link) => {
   link.addEventListener("click", () => {
+    if (link.classList.contains("dropdown-toggle")) {
+      return;
+    }
+
     const menu = document.querySelector("#mainNav");
     const collapse = bootstrap.Collapse.getInstance(menu);
     if (collapse) {
