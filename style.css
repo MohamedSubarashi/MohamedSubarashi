@@ -80,14 +80,22 @@ body.light-theme .site-nav {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
 }
 
-.navbar-nav .nav-link {
+.navbar-nav .nav-link,
+.opera-extensions,
+.edge-extensions,
+.chrome-extensions,
+.firefox-extensions {
   color: var(--muted);
   font-weight: 700;
   font-size: 0.94rem;
 }
 
 .navbar-nav .nav-link:hover,
-.navbar-nav .nav-link.active {
+.navbar-nav .nav-link.active,
+.opera-extensions:hover,
+.edge-extensions:hover,
+.chrome-extensions:hover,
+.firefox-extensions:hover {
   color: var(--text);
 }
 
